@@ -5,12 +5,13 @@ After=network-online.target
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/nomad
+Environment=GOMAXPROCS=25
 Restart=on-failure
 ExecStart=<%= scope.lookupvar('nomad::bin_dir') %>/nomad agent -config=<%= scope.lookupvar('nomad::config_dir') %> <%= scope.lookupvar('nomad::extra_options') %>
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 RestartSec=42s
-LimitNOFILE=131072
+LimitNOFILE=49152
 
 [Install]
 WantedBy=multi-user.target
